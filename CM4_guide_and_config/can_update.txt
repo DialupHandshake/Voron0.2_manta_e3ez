@@ -8,6 +8,9 @@
 # When building for Manta E3EZ, select "USB to CAN bus bridge on PA11/PA12" and "CAN bus (on PB12/PB13)"
 # When building for EBB36 v1.2, select "CAN bus (on PB0/PB1)"
 
+When installing OS on CM4, make sure to make use of the jumpers and CM toggle as per the Manta E3EZ manual.
+
+Enable the USB hub on the Manta by navigating adding the line "dtoverlay=dwc2,dr_mode=host" to /boot/firmware/config.txt
 
 Process of flashing the firmware for everything:
 
