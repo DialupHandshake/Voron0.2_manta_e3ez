@@ -19,7 +19,7 @@ Process of flashing the firmware for everything:
 3. Flash Klipper to MCU with KIAUH:
 	Put the MCU into DFU mode by holding boot, pressing reset, and then releasing boot. 
 	In KIAUH, go to Advanced, get MCU ID, and select option 3 (USB DFU mode). Make sure MCU is identified there.
-	In KIAUH, go to Advanced, Flash Only, Regular flashing method, make flash, and select the MCU.
+	In KIAUH, go to Advanced, Flash Only, Regular flashing method, make flash, select connection method ( USB DFU mode), and select the MCU.
 4. (only first time) Flash CanBoot to the EBB board via Katapult (canboot)
 	Clone Katapult with "git clone https://github.com/Arksine/katapult"
 	Build firmware with "cd katapult", "make menuconfig", "make" and use settings for EBB36 from top of this doc.
@@ -33,7 +33,27 @@ Process of flashing the firmware for everything:
 6. Flash Klipper to EBB36 via canboot
 	Put the board into DFU mode same way as above (also quickly tapping RST may work)
 	Make sure the device is up and on CAN network with "~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0". Should report "Found canbus_uuid=XXXXXXXXXX, Application: CanBoot"
-	Flash the board with "python3 ~/CanBoot/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u MYUUID"
+	Flash the board with "~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 84c9eddddf6b" (replace 84c9eddddf6b with correct UUID if needed)
 	Reboot everything
 	Verify that everything is ok by running "~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0". Should report "Found canbus_uuid=XXXXXXXXXX, Application: Klipper"
 7. Log into mainsail and verify that evething has the same version of Klipper.
+
+
+Process for updating Klipper:
+1. Use KIAUH update facility to update Klipper on the host 
+2. Flash Klipper to the MCU with KIAUH:
+	Use KIAUH to build the firmware for the MCU (settings above).
+	Put the MCU into DFU mode by holding boot, pressing reset, and then releasing boot.
+	In KIAUH, go to Advanced, get MCU ID, and select option 3 (USB DFU mode). Make sure MCU is identified there.
+	In KIAUH, go to Advanced, Flash Only, Regular flashing method, make flash, select connection method ( USB DFU mode), and select the MCU.
+	
+	If this fails, use the USB card flash
+		
+4. Flash Klipper to the EBB CAN board via Katapult:
+	Use KIAUH to build the firmware for the EBB board (settings above).
+	Put the EBB board into bootloader mode by double pressing RST button
+	Navigate to ~ directory and run the command "~/klippy-env/bin/python ~/klipper/scripts/canbus_query.py can0". Application CanBoot and 1 UUID should be found.
+	Run the command "~/katapult/scripts/flash_can.py -i can0 -f ~/klipper/out/klipper.bin -u 84c9eddddf6b" (replace 84c9eddddf6b with correct UUID if needed)
+	
+	
+	
