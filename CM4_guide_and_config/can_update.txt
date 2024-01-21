@@ -46,8 +46,8 @@ Process for updating Klipper:
 	Put the MCU into DFU mode by holding boot, pressing reset, and then releasing boot.
 	In KIAUH, go to Advanced, get MCU ID, and select option 3 (USB DFU mode). Make sure MCU is identified there.
 	In KIAUH, go to Advanced, Flash Only, Regular flashing method, make flash, select connection method ( USB DFU mode), and select the MCU.
-	
-	If this fails, use the USB card flash
+	The utulity may tell you that flashing failed -- this is often wrong and should be verified.
+	If flashing does fail, use the USB card flash
 		
 4. Flash Klipper to the EBB CAN board via Katapult:
 	Use KIAUH to build the firmware for the EBB board (settings above).
